@@ -1,0 +1,42 @@
+﻿<Window x:Class="DataGridCalculativeColumn.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DataGridCalculativeColumn"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <local:NetValueCalculation x:Key="calculatenet"/>
+        <Style TargetType="{x:Type DataGridRow}">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Violet" />
+                    <Setter Property="FontWeight" Value="ExtraBold" />
+                    <!--<Setter Property="Height" Value="20" />-->
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
+    </Window.Resources>
+    <Grid Name="MainGrid" Loaded="MainGrid_Loaded">
+        <DataGrid Name="datagrid1" ItemsSource="{Binding}" AutoGenerateColumns="False" CanUserAddRows="False" >
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{ Binding ProductID}" Header="ProductID" Width="80" />
+                <DataGridTextColumn Binding="{Binding ProductName}" Header="ProductName" Width="80"/>
+                <DataGridTextColumn Binding="{Binding  UnitPrice}" Header="UnitPrice" Width="80" x:Name="unitprc"/>
+                <DataGridTextColumn Binding="{Binding UnitsInStock}" Header="UnitsInStock" Width="80" x:Name="unitstock"/>
+                <DataGridTextColumn Binding="{Binding NotifyOnTargetUpdated=True,Converter={StaticResource calculatenet}}" Header="NetVAlue" Width="80"/>
+                <!--<DataGridTextColumn Header="NetValue" Width="*">
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding Converter="{StaticResource calculatenet}">
+                            <Binding ElementName="unitprc" />
+                            <Binding ElementName="unitstock"/>
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>-->
+            </DataGrid.Columns>
+        </DataGrid>
+        
+    </Grid>
+</Window>
